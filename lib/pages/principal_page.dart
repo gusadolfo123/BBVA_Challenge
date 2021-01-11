@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class PrincipalPage extends StatefulWidget {
   const PrincipalPage({Key key}) : super(key: key);
@@ -10,22 +13,124 @@ class PrincipalPage extends StatefulWidget {
 class Item {
   IconData icon;
   Color color;
-  Item(this.icon, this.color);
+  String title;
+  Item(this.icon, this.color, this.title);
 }
 
 class _PrincipalPageState extends State<PrincipalPage> {
   int _currentIndex = 0;
+  bool _switch = true;
   final items = [
-    Item(Icons.add, Colors.orange),
-    Item(Icons.arrow_upward_sharp, Colors.blue[700]),
-    Item(Icons.money, Colors.blue[300]),
-    Item(Icons.circle_notifications, Colors.purple)
+    Item(Icons.add, Colors.orange, "Oportunidades"),
+    Item(Icons.compare_arrows_outlined, Colors.blue[300], "Transferir"),
+    Item(Icons.attach_money_outlined, Colors.green[300], "Retiro sin tarjeta"),
+    Item(Icons.settings, Colors.purple[300], "Pago servicios")
   ];
 
   void onTapped(int pageTapped) {
     setState(() {
       _currentIndex = pageTapped;
     });
+  }
+
+  Widget card() {
+    return Column(
+      children: [
+        SizedBox(height: 10),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Theme.of(context).primaryColor,
+          ),
+          height: 140,
+          width: 220,
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image(
+                  width: 50,
+                  image: AssetImage("assets/img/BBVA_2019@1X.png"),
+                ),
+                Expanded(child: Container()),
+                Container(
+                  width: 25,
+                  height: 20,
+                  margin: EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: Colors.orange,
+                  ),
+                ),
+                Expanded(child: Container()),
+                Row(
+                  children: [
+                    Text(
+                      "*12354",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(child: Container()),
+                    Text(
+                      "VISA",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+        Container(
+          width: 220,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.credit_card_outlined, size: 14),
+                  SizedBox(width: 4),
+                  Text(
+                    "Tarjeta digital",
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor, fontSize: 10),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Desactivar",
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor, fontSize: 10),
+                  ),
+                  Transform.scale(
+                    scale: .6,
+                    child: Switch(
+                      value: _switch,
+                      onChanged: (bool value) {
+                        _switch = value;
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 10),
+      ],
+    );
   }
 
   @override
@@ -84,11 +189,77 @@ class _PrincipalPageState extends State<PrincipalPage> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Expanded(child: Container()),
-                                    Icon(
-                                      Icons.point_of_sale,
-                                      color: Theme.of(context).primaryColor,
+                                    InkWell(
+                                      onTap: () {
+                                        print("asd");
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.stop_circle,
+                                            color: Colors.grey,
+                                            size: 7,
+                                          ),
+                                          SizedBox(width: 1),
+                                          Icon(
+                                            Icons.stop_circle,
+                                            color: Colors.grey,
+                                            size: 7,
+                                          ),
+                                          SizedBox(width: 1),
+                                          Icon(
+                                            Icons.stop_circle,
+                                            color: Colors.grey,
+                                            size: 7,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
+                                ),
+                                SizedBox(height: 20),
+                                Expanded(
+                                  child: ListView.separated(
+                                    separatorBuilder: (_, __) => Divider(),
+                                    itemCount: 5,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        onTap: () {},
+                                        contentPadding: EdgeInsets.all(0),
+                                        trailing: Icon(Icons.arrow_right),
+                                        title: Row(
+                                          children: [
+                                            Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "001aH123",
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .primaryColor),
+                                                ),
+                                                Text(
+                                                  "*123456",
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.grey),
+                                                ),
+                                              ],
+                                            ),
+                                            Expanded(child: Container()),
+                                            Text(
+                                              "\$20.000",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColor),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
@@ -106,6 +277,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
                               itemBuilder: (context, index) {
                                 final icon = Icon(items[index].icon);
                                 final color = items[index].color;
+                                final title = items[index].title;
 
                                 return Container(
                                   height: 60,
@@ -122,8 +294,9 @@ class _PrincipalPageState extends State<PrincipalPage> {
                                       ),
                                       SizedBox(height: 6),
                                       Text(
-                                        "Texto $index",
+                                        title,
                                         style: TextStyle(
+                                            fontSize: 12,
                                             color:
                                                 Theme.of(context).primaryColor),
                                       ),
@@ -135,33 +308,37 @@ class _PrincipalPageState extends State<PrincipalPage> {
                             )),
                         SizedBox(height: 20),
                         Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
-                          ),
+                          color: Colors.white,
                           alignment: Alignment.center,
-                          height: 200,
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          child: Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      "TUS CUENTAS",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Expanded(child: Container()),
-                                    Icon(
-                                      Icons.point_of_sale,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ],
+                          height: 320,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 20),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Text(
+                                  "Tus tarjetas",
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              SizedBox(height: 20),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: 10,
+                                  physics: BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (_, __) {
+                                    return card();
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                            ],
                           ),
                         ),
                         SizedBox(height: 80),
