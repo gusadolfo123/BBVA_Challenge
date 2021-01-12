@@ -277,6 +277,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
                                       return ListTile(
                                         onTap: () {
                                           Account account = _accounts[index];
+                                          print(account);
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -335,7 +336,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
                             child: ListView.builder(
                               physics: BouncingScrollPhysics(),
                               scrollDirection: Axis.horizontal,
-                              itemCount: 4,
+                              itemCount: items.length,
                               itemBuilder: (context, index) {
                                 final icon = Icon(items[index].icon);
                                 final color = items[index].color;

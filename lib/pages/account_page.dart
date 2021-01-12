@@ -1,9 +1,21 @@
 import 'package:bbva_challenge/pages/principal_page.dart';
 import 'package:flutter/material.dart';
 
-class AccountPage extends StatelessWidget {
+class AccountPage extends StatefulWidget {
   final Account account;
   const AccountPage({Key key, @required this.account}) : super(key: key);
+
+  @override
+  _AccountPageState createState() => _AccountPageState();
+}
+
+class _AccountPageState extends State<AccountPage> {
+  final items = [
+    Item(Icons.add, Colors.orange, "Oportunidades"),
+    Item(Icons.compare_arrows_outlined, Colors.blue[300], "Transferir"),
+    Item(Icons.attach_money_outlined, Colors.green[300], "Retiro sin tarjeta"),
+    Item(Icons.settings, Colors.purple[300], "Pago servicios")
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +95,7 @@ class AccountPage extends StatelessWidget {
         ),
         elevation: 0,
         centerTitle: true,
-        title: Text("Cuenta *123456"),
+        title: Text("Cuenta *${this.widget.account.name.substring(5)}"),
         actions: [
           FloatingActionButton(
             elevation: 0,
@@ -95,10 +107,35 @@ class AccountPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          card(this.account),
+          card(this.widget.account),
           Container(
             height: 160,
             color: Colors.white,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: items.length,
+              physics: BouncingScrollPhysics(),
+              itemBuilder: (context, index) {
+                return Container(
+                  width: 200,
+                  height: 160,
+                  // color: index % 2 == 0 ? Colors.red[400] : Colors.blue[400],
+                  child: Column(
+                    children: [
+                      Expanded(child: Container()),
+                      FloatingActionButton(
+                        heroTag: "btn$index",
+                        child: Icon(items[index].icon),
+                        onPressed: () {},
+                      ),
+                      SizedBox(height: 10),
+                      Text(items[index].title),
+                      Expanded(child: Container()),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
