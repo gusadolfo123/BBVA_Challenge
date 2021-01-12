@@ -1,3 +1,4 @@
+import 'package:bbva_challenge/pages/account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -15,6 +16,14 @@ class Item {
   Item(this.icon, this.color, this.title);
 }
 
+class Account {
+  int id;
+  String name;
+  String number;
+  double value;
+  Account(this.id, this.name, this.number, this.value);
+}
+
 class _PrincipalPageState extends State<PrincipalPage> {
   int _currentIndex = 0;
   bool _switch = true;
@@ -23,6 +32,12 @@ class _PrincipalPageState extends State<PrincipalPage> {
     Item(Icons.compare_arrows_outlined, Colors.blue[300], "Transferir"),
     Item(Icons.attach_money_outlined, Colors.green[300], "Retiro sin tarjeta"),
     Item(Icons.settings, Colors.purple[300], "Pago servicios")
+  ];
+
+  final _accounts = [
+    Account(1, "001aH123", "123456789", 57300),
+    Account(2, "002aT563", "444562787", 23500),
+    Account(3, "003aY995", "877673343", 45000),
   ];
 
   ScrollController _controller;
@@ -136,30 +151,29 @@ class _PrincipalPageState extends State<PrincipalPage> {
   @override
   void initState() {
     _controller = ScrollController();
-    _controller.addListener(_scrollListener);
+    // _controller.addListener(_scrollListener);
     super.initState();
   }
 
   _scrollListener() {
-    // print(_controller.offset);
     if (_controller.position.userScrollDirection == ScrollDirection.reverse) {
-      var pixel = _controller.position.pixels;
-      var percent = ((pixel) / 260) / 10;
-      var item = (pixel / 260).floor() + 1;
-      var p1 = (pixel / 260);
-      print("p1: $p1");
-      print("pixel: $pixel");
-      print("percent: $percent");
-      print("item: $item");
-      print("item percent: ${percent * item}");
-      // if (ind >= index * 0.4) {
-      //   _controller.animateTo(
-      //     (index * 260).floorToDouble(),
-      //     duration: Duration(milliseconds: 50),
-      //     curve: Curves.bounceIn,
-      //   );
-      // }
-      // _controller.animateTo(offset);
+      var pixels = _controller.position.pixels;
+      var item = (pixels / 260).floor() + 1;
+      var p1 = (pixels / 260);
+      int y = int.tryParse(p1.toString().split('.')[1].substring(0, 2));
+      var i = (item * 260).floorToDouble();
+
+      if (y == 30) {
+        Future.delayed(Duration(milliseconds: 100), () {
+          _controller.animateTo(i,
+              duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+        });
+        // _controller.animateTo(
+        //   (item * 260).floorToDouble(),
+        //   duration: Duration(milliseconds: 20),
+        //   curve: Curves.easeInCubic,
+        // );
+      }
     }
     // if (itemPositionsListener.offset > 245 && _controller.offset < 300) {
 
@@ -258,10 +272,20 @@ class _PrincipalPageState extends State<PrincipalPage> {
                                 Expanded(
                                   child: ListView.separated(
                                     separatorBuilder: (_, __) => Divider(),
-                                    itemCount: 5,
+                                    itemCount: _accounts.length,
                                     itemBuilder: (context, index) {
                                       return ListTile(
-                                        onTap: () {},
+                                        onTap: () {
+                                          int id = _accounts[index].id;
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return AccountPage();
+                                              },
+                                            ),
+                                          );
+                                        },
                                         contentPadding: EdgeInsets.all(0),
                                         trailing: Icon(Icons.arrow_right),
                                         title: Row(
@@ -272,13 +296,13 @@ class _PrincipalPageState extends State<PrincipalPage> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  "001aH123",
+                                                  _accounts[index].name,
                                                   style: TextStyle(
                                                       color: Theme.of(context)
                                                           .primaryColor),
                                                 ),
                                                 Text(
-                                                  "*123456",
+                                                  "*${_accounts[index].number.substring(5, 9)}",
                                                   style: TextStyle(
                                                       fontSize: 12,
                                                       color: Colors.grey),
@@ -287,7 +311,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
                                             ),
                                             Expanded(child: Container()),
                                             Text(
-                                              "\$20.000",
+                                              "\$${_accounts[index].value}",
                                               style: TextStyle(
                                                   color: Theme.of(context)
                                                       .primaryColor),
