@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -27,13 +25,15 @@ class _PrincipalPageState extends State<PrincipalPage> {
     Item(Icons.settings, Colors.purple[300], "Pago servicios")
   ];
 
+  ScrollController _controller;
+
   void onTapped(int pageTapped) {
     setState(() {
       _currentIndex = pageTapped;
     });
   }
 
-  Widget card() {
+  Widget card(int index) {
     return Column(
       children: [
         SizedBox(height: 10),
@@ -68,7 +68,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
                 Row(
                   children: [
                     Text(
-                      "*12354",
+                      "*$index",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 14,
@@ -131,6 +131,43 @@ class _PrincipalPageState extends State<PrincipalPage> {
         SizedBox(height: 10),
       ],
     );
+  }
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+    super.initState();
+  }
+
+  _scrollListener() {
+    // print(_controller.offset);
+    if (_controller.position.userScrollDirection == ScrollDirection.reverse) {
+      var pixel = _controller.position.pixels;
+      var percent = ((pixel) / 260) / 10;
+      var item = (pixel / 260).floor() + 1;
+      var p1 = (pixel / 260);
+      print("p1: $p1");
+      print("pixel: $pixel");
+      print("percent: $percent");
+      print("item: $item");
+      print("item percent: ${percent * item}");
+      // if (ind >= index * 0.4) {
+      //   _controller.animateTo(
+      //     (index * 260).floorToDouble(),
+      //     duration: Duration(milliseconds: 50),
+      //     curve: Curves.bounceIn,
+      //   );
+      // }
+      // _controller.animateTo(offset);
+    }
+    // if (itemPositionsListener.offset > 245 && _controller.offset < 300) {
+
+    //   itemScrollController.scrollTo(
+    //       index: 1,
+    //       duration: Duration(seconds: 2),
+    //       curve: Curves.easeInOutCubic);
+    // }
   }
 
   @override
@@ -332,8 +369,9 @@ class _PrincipalPageState extends State<PrincipalPage> {
                                   itemCount: 10,
                                   physics: BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
-                                  itemBuilder: (_, __) {
-                                    return card();
+                                  controller: _controller,
+                                  itemBuilder: (_, index) {
+                                    return card(index);
                                   },
                                 ),
                               ),
