@@ -1,7 +1,9 @@
+import 'package:bbva_challenge/pages/principal_page.dart';
 import 'package:flutter/material.dart';
 
 class AccountPage extends StatelessWidget {
-  const AccountPage({Key key}) : super(key: key);
+  final Account account;
+  const AccountPage({Key key, @required this.account}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +11,7 @@ class AccountPage extends StatelessWidget {
           bodyColor: Theme.of(context).primaryColor,
         );
 
-    Widget card(int index) {
+    Widget card(Account account) {
       return Column(
         children: [
           SizedBox(height: 10),
@@ -44,7 +46,7 @@ class AccountPage extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "*$index",
+                        "*${account.number.substring(5, 9)}",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 14,
@@ -93,7 +95,7 @@ class AccountPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          card(1),
+          card(this.account),
           Container(
             height: 160,
             color: Colors.white,

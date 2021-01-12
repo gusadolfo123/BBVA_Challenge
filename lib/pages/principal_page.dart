@@ -276,12 +276,13 @@ class _PrincipalPageState extends State<PrincipalPage> {
                                     itemBuilder: (context, index) {
                                       return ListTile(
                                         onTap: () {
-                                          int id = _accounts[index].id;
+                                          Account account = _accounts[index];
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) {
-                                                return AccountPage();
+                                                return AccountPage(
+                                                    account: account);
                                               },
                                             ),
                                           );
