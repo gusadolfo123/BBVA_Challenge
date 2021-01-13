@@ -27,6 +27,8 @@ class Account {
 class _PrincipalPageState extends State<PrincipalPage> {
   int _currentIndex = 0;
   bool _switch = true;
+  ScrollController _controller;
+
   final items = [
     Item(Icons.add, Colors.orange, "Oportunidades"),
     Item(Icons.compare_arrows_outlined, Colors.blue[300], "Transferir"),
@@ -39,8 +41,6 @@ class _PrincipalPageState extends State<PrincipalPage> {
     Account(2, "002aT563", "444562787", 23500),
     Account(3, "003aY995", "877673343", 45000),
   ];
-
-  ScrollController _controller;
 
   void onTapped(int pageTapped) {
     setState(() {
@@ -336,6 +336,8 @@ class _PrincipalPageState extends State<PrincipalPage> {
                             child: ListView.builder(
                               physics: BouncingScrollPhysics(),
                               scrollDirection: Axis.horizontal,
+                              shrinkWrap:
+                                  true, // centra los elementos pero se pierde el efecto revote de izquierda a derecha
                               itemCount: items.length,
                               itemBuilder: (context, index) {
                                 final icon = Icon(items[index].icon);

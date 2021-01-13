@@ -14,7 +14,7 @@ class _AccountPageState extends State<AccountPage> {
     Item(Icons.add, Colors.orange, "Oportunidades"),
     Item(Icons.compare_arrows_outlined, Colors.blue[300], "Transferir"),
     Item(Icons.attach_money_outlined, Colors.green[300], "Retiro sin tarjeta"),
-    Item(Icons.settings, Colors.purple[300], "Pago servicios")
+    Item(Icons.settings, Colors.purple[300], "Pago servicios"),
   ];
 
   @override
@@ -33,7 +33,7 @@ class _AccountPageState extends State<AccountPage> {
               color: Theme.of(context).primaryColor,
             ),
             height: 220,
-            width: MediaQuery.of(context).size.width - 40,
+            width: 400,
             margin: EdgeInsets.symmetric(horizontal: 20),
             child: Padding(
               padding: EdgeInsets.all(20),
@@ -43,16 +43,6 @@ class _AccountPageState extends State<AccountPage> {
                   Image(
                     width: 50,
                     image: AssetImage("assets/img/BBVA_2019@1X.png"),
-                  ),
-                  Expanded(child: Container()),
-                  Container(
-                    width: 25,
-                    height: 20,
-                    margin: EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      color: Colors.orange,
-                    ),
                   ),
                   Expanded(child: Container()),
                   Row(
@@ -105,36 +95,51 @@ class _AccountPageState extends State<AccountPage> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          card(this.widget.account),
-          Container(
-            height: 160,
-            color: Colors.white,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: items.length,
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 200,
-                  height: 160,
-                  // color: index % 2 == 0 ? Colors.red[400] : Colors.blue[400],
-                  child: Column(
-                    children: [
-                      Expanded(child: Container()),
-                      FloatingActionButton(
-                        heroTag: "btn$index",
-                        child: Icon(items[index].icon),
-                        onPressed: () {},
-                      ),
-                      SizedBox(height: 10),
-                      Text(items[index].title),
-                      Expanded(child: Container()),
-                    ],
+      body: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Column(
+              children: [
+                card(this.widget.account),
+                Container(
+                  height: 120,
+                  alignment: Alignment.center,
+                  color: Colors.white,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: items.length,
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap:
+                        true, // centra los elementos pero se pierde el efecto revote de izquierda a derecha
+                    itemBuilder: (context, index) {
+                      final icon = Icon(items[index].icon);
+                      final color = items[index].color;
+                      final title = items[index].title;
+                      return Container(
+                        height: 60,
+                        width: 120,
+                        // color: index % 2 == 0 ? Colors.red[400] : Colors.blue[400],
+                        child: Column(
+                          children: [
+                            Expanded(child: Container()),
+                            FloatingActionButton(
+                              heroTag: "btn2$index",
+                              backgroundColor: color,
+                              elevation: 0,
+                              child: icon,
+                              onPressed: () {},
+                            ),
+                            SizedBox(height: 10),
+                            Text(title),
+                            Expanded(child: Container()),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+              ],
             ),
           ),
         ],
