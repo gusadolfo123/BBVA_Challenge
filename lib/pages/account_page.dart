@@ -103,40 +103,131 @@ class _AccountPageState extends State<AccountPage> {
               children: [
                 card(this.widget.account),
                 Container(
-                  height: 120,
+                  height: 160,
                   alignment: Alignment.center,
                   color: Colors.white,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: items.length,
-                    physics: BouncingScrollPhysics(),
-                    shrinkWrap:
-                        true, // centra los elementos pero se pierde el efecto revote de izquierda a derecha
-                    itemBuilder: (context, index) {
-                      final icon = Icon(items[index].icon);
-                      final color = items[index].color;
-                      final title = items[index].title;
-                      return Container(
-                        height: 60,
-                        width: 120,
-                        // color: index % 2 == 0 ? Colors.red[400] : Colors.blue[400],
-                        child: Column(
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 290,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(child: Container()),
-                            FloatingActionButton(
-                              heroTag: "btn2$index",
-                              backgroundColor: color,
-                              elevation: 0,
-                              child: icon,
-                              onPressed: () {},
+                            Row(
+                              children: [
+                                Icon(Icons.credit_card_outlined, size: 14),
+                                SizedBox(width: 4),
+                                Text(
+                                  "Tarjeta digital",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: 10),
+                                )
+                              ],
                             ),
-                            SizedBox(height: 10),
-                            Text(title),
-                            Expanded(child: Container()),
+                            Row(
+                              children: [
+                                Text(
+                                  "Desactivar",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: 10),
+                                ),
+                                Transform.scale(
+                                  scale: .6,
+                                  child: Switch(
+                                    value: true,
+                                    onChanged: (bool value) {},
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
-                      );
-                    },
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: items.length,
+                          physics: BouncingScrollPhysics(),
+                          // shrinkWrap:
+                          //     true, // centra los elementos pero se pierde el efecto revote de izquierda a derecha
+                          itemBuilder: (context, index) {
+                            final icon = Icon(items[index].icon);
+                            final color = items[index].color;
+                            final title = items[index].title;
+                            return Container(
+                              height: 60,
+                              width: 120,
+                              // color: index % 2 == 0 ? Colors.red[400] : Colors.blue[400],
+                              child: Column(
+                                children: [
+                                  Expanded(child: Container()),
+                                  FloatingActionButton(
+                                    heroTag: "btn2$index",
+                                    backgroundColor: color,
+                                    elevation: 0,
+                                    child: icon,
+                                    onPressed: () {},
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(title),
+                                  Expanded(child: Container()),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "ULTIMOS MOVIMIENTOS",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                            Icon(Icons.search),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: 10,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                padding: EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: Container(
+                                  height: 40,
+                                  color: Colors.red,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

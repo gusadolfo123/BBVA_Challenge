@@ -336,8 +336,8 @@ class _PrincipalPageState extends State<PrincipalPage> {
                             child: ListView.builder(
                               physics: BouncingScrollPhysics(),
                               scrollDirection: Axis.horizontal,
-                              shrinkWrap:
-                                  true, // centra los elementos pero se pierde el efecto revote de izquierda a derecha
+                              // shrinkWrap:
+                              //     true, // centra los elementos pero se pierde el efecto revote de izquierda a derecha
                               itemCount: items.length,
                               itemBuilder: (context, index) {
                                 final icon = Icon(items[index].icon);
