@@ -32,7 +32,7 @@ class _AccountPageState extends State<AccountPage> {
               borderRadius: BorderRadius.circular(10),
               color: Theme.of(context).primaryColor,
             ),
-            height: 220,
+            height: 200,
             width: 400,
             margin: EdgeInsets.symmetric(horizontal: 20),
             child: Padding(
@@ -208,19 +208,72 @@ class _AccountPageState extends State<AccountPage> {
                           ],
                         ),
                         SizedBox(height: 20),
-                        Expanded(
+                        Container(
+                          height: 680,
                           child: ListView.builder(
+                            shrinkWrap: true,
                             itemCount: 10,
+                            physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               return Container(
-                                padding: EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                height: 60,
+                                width: 300,
+                                margin: EdgeInsets.symmetric(
+                                  vertical: 4,
                                 ),
-                                child: Container(
-                                  height: 40,
-                                  color: Colors.red,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 26,
+                                  vertical: 14,
+                                ),
+                                decoration: BoxDecoration(
+                                  // color: index % 2 == 0
+                                  //     ? Colors.red[300]
+                                  //     : Colors.green[300],
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(color: Colors.grey[300]),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "Pago en efectivo",
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Movimiento BBVA",
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "1.5664",
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Hoy",
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               );
                             },
